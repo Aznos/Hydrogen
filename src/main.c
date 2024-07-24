@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "lexer/lexer.h"
 
 int main(int argc, char* argv[]) {
     if(argc != 2) {

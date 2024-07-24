@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude
+CFLAGS = -Wall -Wextra
 SRC_DIR = src
 BIN_DIR = bin
 OBJ_DIR = $(BIN_DIR)/obj
