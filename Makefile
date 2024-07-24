@@ -4,6 +4,7 @@ SRC_DIR = src
 BIN_DIR = bin
 OBJ_DIR = $(BIN_DIR)/obj
 TARGET = $(BIN_DIR)/hydrogen
+ARGS = ./src/hydrogen/test.hydro
 
 SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
@@ -19,7 +20,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(TARGET)
-	$(TARGET)
+	$(TARGET) $(ARGS)
 
 clean:
 	rm -rf $(BIN_DIR)

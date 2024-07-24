@@ -1,12 +1,17 @@
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
-    FILE* file = fopen("./src/hydrogen/test.hydro", "r");
+    if(argc != 2) {
+        printf("Usage: ./hydrogen <filename>\n");
+        return 1;
+    }
+    
+    FILE* file = fopen(argv[1], "r");
     char fileContents[1000];
 
     if(file != NULL) {
         while(fgets(fileContents, sizeof(fileContents), file) != NULL) {
-            printf("%s", fileContents);
+            printf("%s\n", fileContents);
         }
     } else {
         printf("File not found!\n");
