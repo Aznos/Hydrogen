@@ -2,6 +2,9 @@
 #define LEXER_H
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
 
 typedef enum {
     TOKEN_VOID,
@@ -13,7 +16,7 @@ typedef enum {
     TOKEN_EOF
 } TokenType;
 
-void initLexer(char* filePath);
+void initLexer(FILE* file);
 TokenType nextToken();
 char getNextChar();
 char* readKeyword(char c);

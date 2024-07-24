@@ -1,7 +1,9 @@
 #include "lexer.h"
 
-void initLexer(char* filePath) {
-    
+static FILE* lexerFile = NULL;
+
+void initLexer(FILE* file) {
+    lexerFile = file;
 }
 
 TokenType nextToken() {
@@ -10,7 +12,7 @@ TokenType nextToken() {
         while(isWhitespace(c)) {
             c = getNextChar();
         }
-    } else if(isAlpha(c)) {
+    } else if(isalpha(c)) {
         char *word = readKeyword(c);
         if(strcmp(word, "void") == 0) {
             return TOKEN_VOID;
@@ -31,7 +33,7 @@ TokenType nextToken() {
 }
 
 char getNextChar() {
-    
+    return fgetc(lexerFile);
 }
 
 bool isWhitespace(char c) {
@@ -39,7 +41,7 @@ bool isWhitespace(char c) {
 }
 
 char* readKeyword(char c) {
-    char word[100];
+    static char word[100];
     int i = 0;
     word[i++] = c;
 
