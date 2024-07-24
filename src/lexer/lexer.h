@@ -1,6 +1,8 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include <stdbool.h>
+
 typedef enum {
     TOKEN_VOID,
     TOKEN_IDENTIFIER,
@@ -13,5 +15,6 @@ typedef enum {
 
 TokenType nextToken();
 char* readKeyword(char c);
+bool isWhitespace(char c);
 
 #endif

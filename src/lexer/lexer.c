@@ -26,6 +26,10 @@ TokenType nextToken() {
     return TOKEN_EOF;
 }
 
+bool isWhitespace(char c) {
+    return c == ' ' || c == '\n' || c == '\t';
+}
+
 char* readKeyword(char c) {
     char word[100];
     int i = 0;
