@@ -8,14 +8,15 @@ int main(int argc, char* argv[]) {
     }
     
     FILE* file = fopen(argv[1], "r");
-    char fileContents[1000];
+    if(file == NULL) {
+        printf("File not found: %s\n", argv[1]);
+        return 1;
+    }
 
-    if(file != NULL) {
-        while(fgets(fileContents, sizeof(fileContents), file) != NULL) {
-            printf("%s\n", fileContents);
-        }
-    } else {
-        printf("File not found!\n");
+    initLexer(file);
+    TokenType token;
+    while((token = nextToken()) != TOKEN_EOF) {
+        //Process later
     }
 
     fclose(file);
