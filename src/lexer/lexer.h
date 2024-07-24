@@ -13,7 +13,9 @@ typedef enum {
     TOKEN_EOF
 } TokenType;
 
+void initLexer(char* filePath);
 TokenType nextToken();
+char getNextChar();
 char* readKeyword(char c);
 bool isWhitespace(char c);
 

@@ -1,5 +1,9 @@
 #include "lexer.h"
 
+void initLexer(char* filePath) {
+    
+}
+
 TokenType nextToken() {
     char c = getNextChar();
     if(isWhitespace(c)) {
@@ -24,6 +28,10 @@ TokenType nextToken() {
     }
 
     return TOKEN_EOF;
+}
+
+char getNextChar() {
+    
 }
 
 bool isWhitespace(char c) {
