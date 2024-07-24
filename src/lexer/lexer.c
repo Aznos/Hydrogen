@@ -45,7 +45,7 @@ char* readKeyword(char c) {
     int i = 0;
     word[i++] = c;
 
-    while(isAlpha(c = getNextChar())) {
+    while(isalpha(c = getNextChar())) {
         word[i++] = c;
     }
 

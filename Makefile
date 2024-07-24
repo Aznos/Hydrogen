@@ -6,7 +6,7 @@ OBJ_DIR = $(BIN_DIR)/obj
 TARGET = $(BIN_DIR)/hydrogen
 ARGS = ./src/hydrogen/test.hydro
 
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+SRC_FILES = $(shell find $(SRC_DIR) -name '*.c')
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 all: $(TARGET)
