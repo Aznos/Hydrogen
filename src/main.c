@@ -2,6 +2,7 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "parser/ast.h"
+#include "codegen/arm_codegen.h"
 
 int main(int argc, char* argv[]) {
     if(argc != 2) {
@@ -17,12 +18,7 @@ int main(int argc, char* argv[]) {
 
     initLexer(file);
     FunctionNode* function = parseFunction();
-    if(function) {
-        printf("Function: %s %s()\n", function->returnType, function->functionName);
-        free(function);
-    } else {
-        printf("Parsing failed\n");
-    }
+    generateARMAssembly(function, "hydrogen.s");
 
     fclose(file);
 }
