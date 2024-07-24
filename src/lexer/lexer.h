@@ -12,5 +12,6 @@ typedef enum {
 } TokenType;
 
 TokenType nextToken();
+char* readKeyword(char c);
 
 #endif

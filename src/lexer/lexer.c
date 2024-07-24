@@ -25,3 +25,16 @@ TokenType nextToken() {
 
     return TOKEN_EOF;
 }
+
+char* readKeyword(char c) {
+    char word[100];
+    int i = 0;
+    word[i++] = c;
+
+    while(isAlpha(c = getNextChar())) {
+        word[i++] = c;
+    }
+
+    word[i] = '\0';
+    return word;
+}
