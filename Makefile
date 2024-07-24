@@ -21,6 +21,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 run: $(TARGET)
 	$(TARGET) $(ARGS)
+	./main
 
 clean:
 	rm -rf $(BIN_DIR)

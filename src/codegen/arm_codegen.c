@@ -1,23 +1,22 @@
-#include "arm_codegen.h"
 #include <stdio.h>
+#include "../parser/ast.h"
 
-void generateARMAssembly(FunctionNode* function, const char* outputFile) {
-    FILE* output = fopen(outputFile, "w");
-    if (!output) {
-        printf("Failed to open output file: %s\n", outputFile);
+void generateARMAssembly(FunctionNode* function, const char* outputFileName) {
+    FILE* outputFile = fopen(outputFileName, "w");
+    if (!outputFile) {
+        printf("Failed to open output file: %s\n", outputFileName);
         return;
     }
 
-    fprintf(output, ".global _%s\n", function->functionName);  // Declare function as global
-    fprintf(output, "_%s:\n", function->functionName);         // Define function label
-    fprintf(output, "    stp x29, x30, [sp, -16]!\n");         // Save frame pointer (x29) and link register (x30)
-    fprintf(output, "    mov x29, sp\n");                      // Set up new frame pointer
+    fprintf(outputFile, ".global _main\n");
+    fprintf(outputFile, "_main:\n");
+    fprintf(outputFile, "    stp x29, x30, [sp, -16]!\n"); // Save the frame pointer and link register
+    fprintf(outputFile, "    mov x29, sp\n"); // Set the frame pointer to the current stack pointer
 
-    // Function body placeholder
-    // To be implemented...
+    fprintf(outputFile, "    mov w0, 0\n"); // Set the return value to 0 (since no body is implemented)
 
-    fprintf(output, "    ldp x29, x30, [sp], 16\n");           // Restore frame pointer and link register
-    fprintf(output, "    ret\n");                              // Return from the function
+    fprintf(outputFile, "    ldp x29, x30, [sp], 16\n"); // Restore the frame pointer and link register
+    fprintf(outputFile, "    ret\n"); // Return
 
-    fclose(output);
+    fclose(outputFile);
 }
