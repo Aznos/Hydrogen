@@ -8,11 +8,12 @@ void initLexer(FILE* file) {
 
 TokenType nextToken() {
     char c = getNextChar();
-    if(isWhitespace(c)) {
-        while(isWhitespace(c)) {
-            c = getNextChar();
-        }
-    } else if(isalpha(c)) {
+    
+    while(isWhitespace(c)) {
+        c = getNextChar();
+    }
+
+    if(isalpha(c)) {
         char *word = readKeyword(c);
         if(strcmp(word, "void") == 0) {
             return TOKEN_VOID;
@@ -45,10 +46,15 @@ char* readKeyword(char c) {
     int i = 0;
     word[i++] = c;
 
-    while(isalpha(c = getNextChar())) {
+    while(isalpha((c = getNextChar())) || isdigit(c) || c == '_') {
         word[i++] = c;
     }
 
     word[i] = '\0';
+
+    if(!isspace(c) && c != EOF) {
+        ungetc(c, lexerFile);
+    }
+
     return word;
 }
