@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "lexer/lexer.h"
+#include "parser/parser.h"
+#include "parser/ast.h"
 
 int main(int argc, char* argv[]) {
     if(argc != 2) {
@@ -14,31 +16,12 @@ int main(int argc, char* argv[]) {
     }
 
     initLexer(file);
-    TokenType token;
-    while((token = nextToken()) != TOKEN_EOF) {
-        switch(token) {
-            case TOKEN_VOID:
-                printf("TOKEN_VOID\n");
-                break;
-            case TOKEN_IDENTIFIER:
-                printf("TOKEN_IDENTIFIER\n");
-                break;
-            case TOKEN_LEFT_PAREN:
-                printf("TOKEN_LEFT_PAREN\n");
-                break;
-            case TOKEN_RIGHT_PAREN:
-                printf("TOKEN_RIGHT_PAREN\n");
-                break;
-            case TOKEN_LEFT_BRACE:
-                printf("TOKEN_LEFT_BRACE\n");
-                break;
-            case TOKEN_RIGHT_BRACE:
-                printf("TOKEN_RIGHT_BRACE\n");
-                break;
-            case TOKEN_EOF:
-                printf("TOKEN_EOF\n");
-                break;
-        }
+    FunctionNode* function = parseFunction();
+    if(function) {
+        printf("Function: %s %s()\n", function->returnType, function->functionName);
+        free(function);
+    } else {
+        printf("Parsing failed\n");
     }
 
     fclose(file);
