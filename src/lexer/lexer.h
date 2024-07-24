@@ -9,6 +9,8 @@ typedef enum {
     TOKEN_LEFT_BRACE,
     TOKEN_RIGHT_BRACE,
     TOKEN_EOF
-};
+} TokenType;
+
+TokenType nextToken();
 
 #endif

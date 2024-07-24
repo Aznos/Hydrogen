@@ -1,0 +1,27 @@
+#include "lexer.h"
+
+TokenType nextToken() {
+    char c = getNextChar();
+    if(isWhitespace(c)) {
+        while(isWhitespace(c)) {
+            c = getNextChar();
+        }
+    } else if(isAlpha(c)) {
+        char *word = readKeyword(c);
+        if(strcmp(word, "void") == 0) {
+            return TOKEN_VOID;
+        } else {
+            return TOKEN_IDENTIFIER;
+        }
+    } else if(c == '(') {
+        return TOKEN_LEFT_PAREN;
+    } else if(c == ')') {
+        return TOKEN_RIGHT_PAREN;
+    } else if(c == '{') {
+        return TOKEN_LEFT_BRACE;
+    } else if(c == '}') {
+        return TOKEN_RIGHT_BRACE;
+    }
+
+    return TOKEN_EOF;
+}
