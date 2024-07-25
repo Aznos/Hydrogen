@@ -1,10 +1,10 @@
 #include "parser.h"
-#include "../codegen/arm_codegen.h"
+#include "../codegen/codegen.h"
 
 extern FILE* lexerFile;
 
 FunctionNode* parseFunction() {
-    FunctionNode* node = malloc(sizeof(FunctionNode));
+    FunctionNode* node = new FunctionNode();
     TokenType token;
 
     token = nextToken();
@@ -75,7 +75,7 @@ void parseFunctionBody(FunctionNode* function) {
 }
 
 VariableNode* parseVariableDeclaration() {
-    VariableNode* node = malloc(sizeof(VariableNode));
+    VariableNode* node = new VariableNode();
     node->type = "int";
     node->next = NULL;
 
