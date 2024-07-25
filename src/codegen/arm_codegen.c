@@ -14,11 +14,13 @@ void generateARMAssembly(FunctionNode* function, const char* outputFileName) {
     fprintf(outputFile, "    mov x29, sp\n"); // Set the frame pointer to the current stack pointer
 
     VariableNode* var = function->variables;
-    while(var != NULL) {
-        fprintf(outputFile, "    sub sp, sp, #4\n"); //Allocate space for each variable
+    int stackOffset = 0;
+    while (var != NULL) {
+        fprintf(outputFile, "    sub sp, sp, #4\n"); // Allocate space for each variable
         fprintf(outputFile, "    mov w0, #%d\n", var->value); // Set the value of the variable
-        fprintf(outputFile, "    str w0, [sp, #-4]\n"); // Store the value of the variable in the allocated space
-    
+        fprintf(outputFile, "    str w0, [sp, #%d]\n", stackOffset); // Store the value of the variable in the allocated space
+        
+        stackOffset -= 4;
         var = var->next;
     }
 
