@@ -5,7 +5,7 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "parser/ast.h"
-#include "codegen/arm_codegen.h"
+#include "codegen/codegen.h"
 
 int main(int argc, char* argv[]) {
     if (argc < 2 || argc > 3) {
@@ -13,14 +13,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    char assemblyFile[] = "temp.s";
-    char objectFile[] = "temp.o";
+    char llvmFile[] = "output.ll";
     char executableFile[] = "main";
-    int keepAsm = 0;
+    int keepIR = 0;
 
     if (argc == 3) {
-        if (strcmp(argv[2], "--keepasm") == 0) {
-            keepAsm = 1;
+        if (strcmp(argv[2], "--keepir") == 0) {
+            keepIR = 1;
         } else {
             printf("Unknown option: %s\n", argv[2]);
             return 1;
@@ -36,29 +35,19 @@ int main(int argc, char* argv[]) {
     initLexer(file);
     FunctionNode* function = parseFunction();
     if (function) {
-        generateARMAssembly(function, assemblyFile);
+        generateLLVMIR(function, llvmFile);
 
-        char assembleCmd[512];
-        snprintf(assembleCmd, sizeof(assembleCmd), "as -g -o %s %s", objectFile, assemblyFile);
-        int assembleStatus = system(assembleCmd);
-        if (assembleStatus != 0) {
-            printf("Assembly failed with status: %d\n", WEXITSTATUS(assembleStatus));
+        char compileCmd[512];
+        snprintf(compileCmd, sizeof(compileCmd), "clang -o %s %s", executableFile, llvmFile);
+        int compileStatus = system(compileCmd);
+        if (compileStatus != 0) {
+            printf("Compilation failed with status: %d\n", WEXITSTATUS(compileStatus));
             fclose(file);
             return 1;
         }
 
-        char linkCmd[512];
-        snprintf(linkCmd, sizeof(linkCmd), "gcc -g -o %s %s -lc", executableFile, objectFile);
-        int linkStatus = system(linkCmd);
-        if (linkStatus != 0) {
-            printf("Linking failed with status: %d\n", WEXITSTATUS(linkStatus));
-            fclose(file);
-            return 1;
-        }
-
-        if (!keepAsm) {
-            remove(assemblyFile);
-            remove(objectFile);
+        if (!keepIR) {
+            remove(llvmFile);
         }
     } else {
         printf("Parsing failed\n");

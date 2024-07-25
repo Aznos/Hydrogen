@@ -4,6 +4,6 @@
 #include <stdio.h>
 #include "../parser/ast.h"
 
-void generateARMAssembly(FunctionNode* function, const char* outputFile);
+void generateLLVMIR(FunctionNode* function, const char* outputFile);
 
 #endif
