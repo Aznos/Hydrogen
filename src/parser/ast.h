@@ -3,17 +3,20 @@
 
 #include "../lexer/lexer.h"
 
-typedef struct {
-    char* type;
-    char* functionName;
-    VariableNode* variables;
-} FunctionNode;
+struct VariableNode;
+struct FunctionNode;
 
-typedef struct {
+typedef struct VariableNode {
     char* type;
     char* name;
     int value;
     struct VariableNode* next;
 } VariableNode;
+
+typedef struct FunctionNode {
+    char* type;
+    char* functionName;
+    VariableNode* variables;
+} FunctionNode;
 
 #endif
