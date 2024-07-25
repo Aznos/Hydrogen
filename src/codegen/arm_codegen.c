@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "../parser/ast.h"
 
+FILE* outputFile;
+
 void generateARMAssembly(FunctionNode* function, const char* outputFileName) {
-    FILE* outputFile = fopen(outputFileName, "w");
+    outputFile = fopen(outputFileName, "w");
     if (!outputFile) {
         printf("Failed to open output file: %s\n", outputFileName);
         return;
@@ -29,4 +31,14 @@ void generateARMAssembly(FunctionNode* function, const char* outputFileName) {
     fprintf(outputFile, "    ret\n"); // Return
 
     fclose(outputFile);
+}
+
+void emitPrintString(char* str) {
+    fprintf(outputFile, "    ldr r0, =%s\n", str);
+    fprintf(outputFile, "    bl printString\n");
+}
+
+void emitPrintVariable(char* varName) {
+    fprintf(outputFile, "    ldr r0, [%s]\n", varName);
+    fprintf(outputFile, "    bl printInt\n");
 }
