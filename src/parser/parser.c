@@ -43,7 +43,7 @@ FunctionNode* parseFunction() {
         return NULL;
     }
 
-    parseFunctionBody();
+    parseFunctionBody(node);
 
     token = nextToken();
     if (token != TOKEN_RIGHT_BRACE) {
@@ -55,14 +55,14 @@ FunctionNode* parseFunction() {
     return node;
 }
 
-void parseFunctionBody() {
+void parseFunctionBody(FunctionNode* function) {
     TokenType token;
     while ((token = nextToken()) != TOKEN_RIGHT_BRACE) {
         if (token == TOKEN_INT) {
             VariableNode* var = parseVariableDeclaration();
             if (var) {
-                printf("Declared variable: %s of type %s with value %d\n", var->name, var->type, var->value);
-                free(var);
+                var->next = function->variables;
+                function->variables = var;
             }
         } else {
             printf("ERR: Unexpected token in function body\n");
@@ -76,6 +76,7 @@ void parseFunctionBody() {
 VariableNode* parseVariableDeclaration() {
     VariableNode* node = malloc(sizeof(VariableNode));
     node->type = "int";
+    node->next = NULL;
 
     TokenType token = nextToken();
     if (token != TOKEN_IDENTIFIER) {
