@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
         generateARMAssembly(function, assemblyFile);
 
         char assembleCmd[512];
-        snprintf(assembleCmd, sizeof(assembleCmd), "as -o %s %s", objectFile, assemblyFile);
+        snprintf(assembleCmd, sizeof(assembleCmd), "as -g -o %s %s", objectFile, assemblyFile);
         int assembleStatus = system(assembleCmd);
         if (assembleStatus != 0) {
             printf("Assembly failed with status: %d\n", WEXITSTATUS(assembleStatus));
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
         }
 
         char linkCmd[512];
-        snprintf(linkCmd, sizeof(linkCmd), "gcc -o %s %s", executableFile, objectFile);
+        snprintf(linkCmd, sizeof(linkCmd), "gcc -g -o %s %s", executableFile, objectFile);
         int linkStatus = system(linkCmd);
         if (linkStatus != 0) {
             printf("Linking failed with status: %d\n", WEXITSTATUS(linkStatus));
