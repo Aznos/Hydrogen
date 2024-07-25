@@ -8,6 +8,5 @@
 void parseFunctionBody(FunctionNode* function);
 FunctionNode* parseFunction();
 VariableNode* parseVariableDeclaration();
-void parsePrintStatement();
 
 #endif

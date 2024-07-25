@@ -65,8 +65,6 @@ void parseFunctionBody(FunctionNode* function) {
                 var->next = function->variables;
                 function->variables = var;
             }
-        } else if(token == TOKEN_PRINT) {
-            parsePrintStatement();
         } else {
             printf("ERR: Unexpected token in function body\n");
             break;
@@ -115,27 +113,4 @@ VariableNode* parseVariableDeclaration() {
     }
 
     return node;
-}
-
-void parsePrintStatement() {
-    if(nextToken() != TOKEN_LEFT_PAREN) {
-        printf("ERR: Expected \"(\" in print statement\n");
-        return;
-    }
-
-    TokenType token = nextToken();
-    if(token == TOKEN_STRING_LITERAL) {
-        char* str = getCurrentTokenValue();
-        emitPrintString(str);
-    } else if(token == TOKEN_IDENTIFIER) {
-        char* varName = getCurrentTokenValue();
-        emitPrintVariable(varName);
-    } else {
-        printf("ERR: Expected string literal or identifier in print statement\n");
-        return;
-    }
-
-    if(nextToken() != TOKEN_RIGHT_PAREN) {
-        printf("ERR: Expected \")\" in print statement\n");
-    }
 }
