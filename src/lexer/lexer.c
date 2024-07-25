@@ -30,6 +30,12 @@ TokenType nextToken() {
         return TOKEN_LEFT_BRACE;
     } else if(c == '}') {
         return TOKEN_RIGHT_BRACE;
+    } else if(c == '=') {
+        return TOKEN_EQUALS;
+    } else if(isdigit(c)) {
+        return TOKEN_NUMBER;
+    } else if(c == ';') {
+        return TOKEN_SEMICOLON;
     }
 
     return TOKEN_EOF;
