@@ -1,5 +1,5 @@
-#ifndef ARM_CODEGEN_H
-#define ARM_CODEGEN_H
+#ifndef CODEGEN_H
+#define CODEGEN_H
 
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
