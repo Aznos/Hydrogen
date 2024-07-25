@@ -1,5 +1,7 @@
+LLVM_PREFIX = /opt/homebrew/opt/llvm
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra -g -I$(LLVM_PREFIX)/include
+LDFLAGS = -L$(LLVM_PREFIX)/lib -lLLVM
 SRC_DIR = src
 BIN_DIR = bin
 OBJ_DIR = $(BIN_DIR)/obj
@@ -12,8 +14,8 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -o $@ $^
+	@mkdir -p $(BIN_DIR)
+	$(CC) $(CFLAGS) $(OBJ_FILES) -o $@ $(LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
@@ -21,9 +23,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 run: $(TARGET)
 	$(TARGET) $(ARGS)
-	./main
 
 clean:
 	rm -rf $(BIN_DIR)
 
-.PHONY: all clean
+.PHONY: all clean run
