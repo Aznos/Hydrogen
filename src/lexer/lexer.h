@@ -1,32 +1,36 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
+#include <string>
+#include <fstream>
 
-typedef enum {
-    TOKEN_VOID,
-    TOKEN_INT,
-    TOKEN_IDENTIFIER,
-    TOKEN_LEFT_PAREN,
-    TOKEN_RIGHT_PAREN,
-    TOKEN_LEFT_BRACE,
-    TOKEN_RIGHT_BRACE,
-    TOKEN_EQUALS,
-    TOKEN_NUMBER,
-    TOKEN_SEMICOLON,
-    TOKEN_EOF
-} TokenType;
+enum class TokenType {
+    VOID,
+    INT,
+    IDENTIFIER,
+    LEFT_PAREN,
+    RIGHT_PAREN,
+    LEFT_BRACE,
+    RIGHT_BRACE,
+    EQUALS,
+    NUMBER,
+    SEMICOLON,
+    EOF_TOKEN
+};
 
-void initLexer(FILE* file);
-TokenType nextToken();
-TokenType readKeyword(char c);
-TokenType readNumber(char c);
-char getNextChar();
-char* getCurrentTokenValue();
-bool isWhitespace(char c);
-bool isStringLiteral(char* word);
+class Lexer {
+public:
+    void initLexer(const std::string& filename);
+    TokenType nextToken();
+    TokenType readKeyword(char c);
+    TokenType readNumber(char c);
+    char getNextChar();
+    std::string getCurrentTokenValue();
+    bool isWhitespace(char c);
+
+private:
+    std::ifstream lexerFile;
+    std::string currentTokenValue;
+};
 
 #endif

@@ -1,91 +1,88 @@
 #include "lexer.h"
+#include <cctype>
 
-FILE* lexerFile = NULL;
-static char word[100];
-
-void initLexer(FILE* file) {
-    lexerFile = file;
+void Lexer::initLexer(const std::string& filename) {
+    lexerFile.open(filename);
+    if (!lexerFile) {
+        throw std::runtime_error("File could not be opened: " + filename);
+    }
 }
 
-TokenType nextToken() {
+TokenType Lexer::nextToken() {
     char c = getNextChar();
-    
-    while(isWhitespace(c)) {
+
+    while (isWhitespace(c)) {
         c = getNextChar();
     }
 
     switch (c) {
         case '(': 
-            return TOKEN_LEFT_PAREN;
+            return TokenType::LEFT_PAREN;
         case ')': 
-            return TOKEN_RIGHT_PAREN;
+            return TokenType::RIGHT_PAREN;
         case '{': 
-            return TOKEN_LEFT_BRACE;
+            return TokenType::LEFT_BRACE;
         case '}': 
-            return TOKEN_RIGHT_BRACE;
+            return TokenType::RIGHT_BRACE;
         case '=': 
-            return TOKEN_EQUALS;
+            return TokenType::EQUALS;
         case ';': 
-            return TOKEN_SEMICOLON;
+            return TokenType::SEMICOLON;
         default:
-            if (isalpha(c)) {
+            if (std::isalpha(c)) {
                 return readKeyword(c);
-            } else if (isdigit(c)) {
+            } else if (std::isdigit(c)) {
                 return readNumber(c);
             }
     }
 
-    return TOKEN_EOF;
+    return TokenType::EOF_TOKEN;
 }
 
-char getNextChar() {
-    return fgetc(lexerFile);
+char Lexer::getNextChar() {
+    return lexerFile.get();
 }
 
-bool isWhitespace(char c) {
-    return c == ' ' || c == '\n' || c == '\t';
+bool Lexer::isWhitespace(char c) {
+    return std::isspace(static_cast<unsigned char>(c));
 }
 
-TokenType readKeyword(char c) {
-    int i = 0;
-    word[i++] = c;
+TokenType Lexer::readKeyword(char c) {
+    currentTokenValue.clear();
+    currentTokenValue += c;
 
-    while (isalpha((c = getNextChar())) || isdigit(c) || c == '_') {
-        word[i++] = c;
+    while (std::isalpha((c = getNextChar())) || std::isdigit(c) || c == '_') {
+        currentTokenValue += c;
     }
 
-    word[i] = '\0';
-
-    if (!isspace(c) && c != EOF) {
-        ungetc(c, lexerFile);
+    if (!isWhitespace(c) && c != std::char_traits<char>::eof()) {
+        lexerFile.unget();
     }
 
-    if(strcmp(word, "void") == 0) {
-        return TOKEN_VOID;
-    } else if(strcmp(word, "int") == 0) {
-        return TOKEN_INT;
+    if (currentTokenValue == "void") {
+        return TokenType::VOID;
+    } else if (currentTokenValue == "int") {
+        return TokenType::INT;
     }
 
-    return TOKEN_IDENTIFIER;
+    return TokenType::IDENTIFIER;
 }
 
-TokenType readNumber(char c) {
-    int i = 0;
-    word[i++] = c;
+TokenType Lexer::readNumber(char c) {
+    currentTokenValue.clear();
+    currentTokenValue += c;
 
-    while (isdigit(c = getNextChar())) {
-        word[i++] = c;
+    while (std::isdigit(c = getNextChar())) {
+        currentTokenValue += c;
     }
 
-    word[i] = '\0';
-
-    if (!isspace(c) && c != EOF) {
-        ungetc(c, lexerFile);
+    if (!isWhitespace(c) && c != std::char_traits<char>::eof()) {
+        lexerFile.unget();
     }
 
-    return TOKEN_NUMBER;
+    return TokenType::NUMBER;
 }
 
-char* getCurrentTokenValue() {
-    return word;
+std::string Lexer::getCurrentTokenValue() {
+    return currentTokenValue;
 }
