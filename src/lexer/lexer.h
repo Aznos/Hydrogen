@@ -24,6 +24,7 @@ void initLexer(FILE* file);
 TokenType nextToken();
 char getNextChar();
 char* readKeyword(char c);
+char* getCurrentTokenValue();
 bool isWhitespace(char c);
 
 #endif

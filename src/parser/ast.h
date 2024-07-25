@@ -11,6 +11,7 @@ typedef struct {
 typedef struct {
     char* type;
     char* name;
+    int value;
 } VariableNode;
 
 #endif

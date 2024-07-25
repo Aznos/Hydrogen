@@ -1,6 +1,7 @@
 #include "lexer.h"
 
 static FILE* lexerFile = NULL;
+static char word[100];
 
 void initLexer(FILE* file) {
     lexerFile = file;
@@ -53,7 +54,6 @@ bool isWhitespace(char c) {
 }
 
 char* readKeyword(char c) {
-    static char word[100];
     int i = 0;
     word[i++] = c;
 
@@ -67,5 +67,9 @@ char* readKeyword(char c) {
         ungetc(c, lexerFile);
     }
 
+    return word;
+}
+
+char* getCurrentTokenValue() {
     return word;
 }
