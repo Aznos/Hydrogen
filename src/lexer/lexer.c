@@ -14,7 +14,7 @@ TokenType nextToken() {
         c = getNextChar();
     }
 
-    switch(c) {
+    switch (c) {
         case '(': 
             return TOKEN_LEFT_PAREN;
         case ')': 
@@ -28,17 +28,10 @@ TokenType nextToken() {
         case ';': 
             return TOKEN_SEMICOLON;
         default:
-            if(isalpha(c)) {
-                char *word = readKeyword(c);
-                if(strcmp(word, "void") == 0) {
-                    return TOKEN_VOID;
-                } else if(strcmp(word, "int") == 0) {
-                    return TOKEN_INT;
-                } else {
-                    return TOKEN_IDENTIFIER;
-                }
-            } else if(isdigit(c)) {
-                return TOKEN_NUMBER;
+            if (isalpha(c)) {
+                return readKeyword(c);
+            } else if (isdigit(c)) {
+                return readNumber(c);
             }
     }
 
@@ -53,21 +46,44 @@ bool isWhitespace(char c) {
     return c == ' ' || c == '\n' || c == '\t';
 }
 
-char* readKeyword(char c) {
+TokenType readKeyword(char c) {
     int i = 0;
     word[i++] = c;
 
-    while(isalpha((c = getNextChar())) || isdigit(c) || c == '_') {
+    while (isalpha((c = getNextChar())) || isdigit(c) || c == '_') {
         word[i++] = c;
     }
 
     word[i] = '\0';
 
-    if(!isspace(c) && c != EOF) {
+    if (!isspace(c) && c != EOF) {
         ungetc(c, lexerFile);
     }
 
-    return word;
+    if (strcmp(word, "void") == 0) {
+        return TOKEN_VOID;
+    } else if (strcmp(word, "int") == 0) {
+        return TOKEN_INT;
+    }
+
+    return TOKEN_IDENTIFIER;
+}
+
+TokenType readNumber(char c) {
+    int i = 0;
+    word[i++] = c;
+
+    while (isdigit(c = getNextChar())) {
+        word[i++] = c;
+    }
+
+    word[i] = '\0';
+
+    if (!isspace(c) && c != EOF) {
+        ungetc(c, lexerFile);
+    }
+
+    return TOKEN_NUMBER;
 }
 
 char* getCurrentTokenValue() {

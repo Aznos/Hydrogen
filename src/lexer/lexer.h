@@ -22,8 +22,9 @@ typedef enum {
 
 void initLexer(FILE* file);
 TokenType nextToken();
+TokenType readKeyword(char c);
+TokenType readNumber(char c);
 char getNextChar();
-char* readKeyword(char c);
 char* getCurrentTokenValue();
 bool isWhitespace(char c);
 
