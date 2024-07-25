@@ -4,12 +4,12 @@
 #include "../lexer/lexer.h"
 
 typedef struct {
-    TokenType type;
+    char* type;
     char* functionName;
 } FunctionNode;
 
 typedef struct {
-    TokenType type;
+    char* type;
     char* name;
 } VariableNode;
 

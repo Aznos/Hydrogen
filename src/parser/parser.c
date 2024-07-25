@@ -10,7 +10,7 @@ FunctionNode* parseFunction() {
         free(node);
         return NULL;
     }
-    node->returnType = "void";
+    node->type = "void";
 
     token = nextToken();
     if(token != TOKEN_IDENTIFIER) {
