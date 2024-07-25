@@ -16,6 +16,8 @@ typedef enum {
     TOKEN_RIGHT_BRACE,
     TOKEN_EQUALS,
     TOKEN_NUMBER,
+    TOKEN_PRINT,
+    TOKEN_STRING_LITERAL,
     TOKEN_SEMICOLON,
     TOKEN_EOF
 } TokenType;
@@ -27,5 +29,6 @@ TokenType readNumber(char c);
 char getNextChar();
 char* getCurrentTokenValue();
 bool isWhitespace(char c);
+bool isStringLiteral(char* word);
 
 #endif

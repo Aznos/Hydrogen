@@ -46,6 +46,10 @@ bool isWhitespace(char c) {
     return c == ' ' || c == '\n' || c == '\t';
 }
 
+bool isStringLiteral(char* word) {
+    return word[0] == '"' && word[strlen(word) - 1] == '"';
+}
+
 TokenType readKeyword(char c) {
     int i = 0;
     word[i++] = c;
@@ -60,10 +64,14 @@ TokenType readKeyword(char c) {
         ungetc(c, lexerFile);
     }
 
-    if (strcmp(word, "void") == 0) {
+    if(strcmp(word, "void") == 0) {
         return TOKEN_VOID;
-    } else if (strcmp(word, "int") == 0) {
+    } else if(strcmp(word, "int") == 0) {
         return TOKEN_INT;
+    } else if(strcmp(word, "print") == 0) {
+        return TOKEN_PRINT;
+    } else if(isStringLiteral(word)) {
+        return TOKEN_STRING_LITERAL;
     }
 
     return TOKEN_IDENTIFIER;

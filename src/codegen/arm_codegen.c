@@ -20,7 +20,7 @@ void generateARMAssembly(FunctionNode* function, const char* outputFileName) {
         fprintf(outputFile, "    mov w0, #%d\n", var->value); // Set the value of the variable
         fprintf(outputFile, "    str w0, [sp, #%d]\n", stackOffset); // Store the value of the variable in the allocated space
         
-        stackOffset -= 4;
+        stackOffset += 4;
         var = var->next;
     }
 
