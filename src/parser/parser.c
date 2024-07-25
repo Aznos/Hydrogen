@@ -64,6 +64,9 @@ void parseFunctionBody(FunctionNode* function) {
                 var->next = function->variables;
                 function->variables = var;
             }
+        } else if(token == TOKEN_PRINT) {
+            printf("ERR: Print statement not implemented\n");
+            break;
         } else {
             printf("ERR: Unexpected token in function body\n");
             break;
