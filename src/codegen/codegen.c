@@ -24,7 +24,7 @@ void generateLLVMIR(FunctionNode* function, const char* outputFileName) {
     llvm::verifyFunction(*MainFunc);
 
     std::error_code EC;
-    llvm:raw_fd_ostream OS(outputFileName, EC, llvm::sys::fs::OF_None);
+    llvm::raw_fd_ostream OS(outputFileName, EC, llvm::sys::fs::OF_None);
     Module->print(OS, nullptr);
 
     delete Module;
