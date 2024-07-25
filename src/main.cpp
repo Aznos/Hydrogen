@@ -1,7 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <memory>
+#include <cstdio>
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "parser/ast.h"
@@ -9,50 +10,48 @@
 
 int main(int argc, char* argv[]) {
     if (argc < 2 || argc > 3) {
-        printf("Usage: %s <filename> [--keepasm]\n", argv[0]);
+        std::cerr << "Usage: " << argv[0] << " <filename> [--keepir]\n";
         return 1;
     }
 
-    char llvmFile[] = "output.ll";
-    char executableFile[] = "main";
-    int keepIR = 0;
+    std::string llvmFile = "output.ll";
+    std::string executableFile = "main";
+    bool keepIR = false;
 
     if (argc == 3) {
-        if (strcmp(argv[2], "--keepir") == 0) {
-            keepIR = 1;
+        if (std::string(argv[2]) == "--keepir") {
+            keepIR = true;
         } else {
-            printf("Unknown option: %s\n", argv[2]);
+            std::cerr << "Unknown option: " << argv[2] << "\n";
             return 1;
         }
     }
 
-    FILE* file = fopen(argv[1], "r");
-    if (file == NULL) {
-        printf("File not found: %s\n", argv[1]);
+    std::ifstream file(argv[1]);
+    if (!file.is_open()) {
+        std::cerr << "File not found: " << argv[1] << "\n";
         return 1;
     }
 
     initLexer(file);
-    FunctionNode* function = parseFunction();
+    std::unique_ptr<FunctionNode> function(parseFunction());
     if (function) {
-        generateLLVMIR(function, llvmFile);
+        generateLLVMIR(function.get(), llvmFile.c_str());
 
-        char compileCmd[512];
-        snprintf(compileCmd, sizeof(compileCmd), "clang -o %s %s", executableFile, llvmFile);
-        int compileStatus = system(compileCmd);
+        std::string compileCmd = "clang -o " + executableFile + " " + llvmFile;
+        int compileStatus = system(compileCmd.c_str());
         if (compileStatus != 0) {
-            printf("Compilation failed with status: %d\n", WEXITSTATUS(compileStatus));
-            fclose(file);
+            std::cerr << "Compilation failed with status: " << WEXITSTATUS(compileStatus) << "\n";
             return 1;
         }
 
         if (!keepIR) {
-            remove(llvmFile);
+            std::remove(llvmFile.c_str());
         }
     } else {
-        printf("Parsing failed\n");
+        std::cerr << "Parsing failed\n";
+        return 1;
     }
 
-    fclose(file);
     return 0;
 }
