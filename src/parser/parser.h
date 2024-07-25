@@ -5,7 +5,7 @@
 #include "ast.h"
 #include "../lexer/lexer.h"
 
-void parseFunctionBody();
+void parseFunctionBody(FunctionNode* function);
 FunctionNode* parseFunction();
 VariableNode* parseVariableDeclaration();
 
