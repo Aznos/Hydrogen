@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-static FILE* lexerFile = NULL;
+FILE* lexerFile = NULL;
 static char word[100];
 
 void initLexer(FILE* file) {
