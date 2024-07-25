@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "../parser/ast.h"
 
 FILE* outputFile;
@@ -26,19 +27,9 @@ void generateARMAssembly(FunctionNode* function, const char* outputFileName) {
         var = var->next;
     }
 
-    fprintf(outputFile, "    mov w0, 0\n"); // Set the return value to 0 (since no body is implemented)
+    fprintf(outputFile, "    mov w0, 0\n"); // Set the return value to 0
     fprintf(outputFile, "    ldp x29, x30, [sp], 16\n"); // Restore the frame pointer and link register
     fprintf(outputFile, "    ret\n"); // Return
 
     fclose(outputFile);
-}
-
-void emitPrintString(char* str) {
-    fprintf(outputFile, "    ldr r0, =%s\n", str);
-    fprintf(outputFile, "    bl printString\n");
-}
-
-void emitPrintVariable(char* varName) {
-    fprintf(outputFile, "    ldr r0, [%s]\n", varName);
-    fprintf(outputFile, "    bl printInt\n");
 }

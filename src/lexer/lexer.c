@@ -46,10 +46,6 @@ bool isWhitespace(char c) {
     return c == ' ' || c == '\n' || c == '\t';
 }
 
-bool isStringLiteral(char* word) {
-    return word[0] == '"' && word[strlen(word) - 1] == '"';
-}
-
 TokenType readKeyword(char c) {
     int i = 0;
     word[i++] = c;

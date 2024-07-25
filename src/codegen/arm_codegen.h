@@ -5,7 +5,5 @@
 #include "../parser/ast.h"
 
 void generateARMAssembly(FunctionNode* function, const char* outputFile);
-void emitPrintString(char* str);
-void emitPrintVariable(char* varName);
 
 #endif
