@@ -34,14 +34,14 @@ FunctionNode* parseFunction() {
         return NULL;
     }
 
-    parseFunctionBody();
-
     token = nextToken();
     if(token != TOKEN_LEFT_BRACE) {
         printf("ERR: Expected \"{\" in function declaration\n");
         free(node);
         return NULL;
     }
+
+    parseFunctionBody();
 
     token = nextToken();
     if(token != TOKEN_RIGHT_BRACE) {
