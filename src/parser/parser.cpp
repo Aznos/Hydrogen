@@ -1,72 +1,63 @@
 #include "parser.h"
-#include "../codegen/codegen.h"
+#include <iostream>
 
-extern FILE* lexerFile;
-
-FunctionNode* parseFunction() {
-    FunctionNode* node = new FunctionNode();
+std::unique_ptr<FunctionNode> parseFunction() {
+    auto node = std::make_unique<FunctionNode>();
     TokenType token;
 
     token = nextToken();
-    if (token != TOKEN_VOID) {
-        printf("ERR: Expected \"void\" in function declaration\n");
-        free(node);
-        return NULL;
+    if (token != TokenType::VOID) {
+        std::cerr << "ERR: Expected \"void\" in function declaration\n";
+        return nullptr;
     }
     node->type = "void";
 
     token = nextToken();
-    if (token != TOKEN_IDENTIFIER || strcmp(getCurrentTokenValue(), "main") != 0) {
-        printf("ERR: Expected \"main\" in function declaration\n");
-        free(node);
-        return NULL;
+    if (token != TokenType::IDENTIFIER || getCurrentTokenValue() != "main") {
+        std::cerr << "ERR: Expected \"main\" in function declaration\n";
+        return nullptr;
     }
     node->functionName = "main";
 
     token = nextToken();
-    if (token != TOKEN_LEFT_PAREN) {
-        printf("ERR: Expected \"(\"\n");
-        free(node);
-        return NULL;
+    if (token != TokenType::LEFT_PAREN) {
+        std::cerr << "ERR: Expected \"(\"\n";
+        return nullptr;
     }
 
     token = nextToken();
-    if (token != TOKEN_RIGHT_PAREN) {
-        printf("ERR: Expected \")\"\n");
-        free(node);
-        return NULL;
+    if (token != TokenType::RIGHT_PAREN) {
+        std::cerr << "ERR: Expected \")\"\n";
+        return nullptr;
     }
 
     token = nextToken();
-    if (token != TOKEN_LEFT_BRACE) {
-        printf("ERR: Expected \"{\" in function declaration\n");
-        free(node);
-        return NULL;
+    if (token != TokenType::LEFT_BRACE) {
+        std::cerr << "ERR: Expected \"{\" in function declaration\n";
+        return nullptr;
     }
 
-    parseFunctionBody(node);
+    parseFunctionBody(*node);
 
     token = nextToken();
-    if (token != TOKEN_RIGHT_BRACE) {
-        printf("ERR: Expected \"}\" in function declaration\n");
-        free(node);
-        return NULL;
+    if (token != TokenType::RIGHT_BRACE) {
+        std::cerr << "ERR: Expected \"}\" in function declaration\n";
+        return nullptr;
     }
 
     return node;
 }
 
-void parseFunctionBody(FunctionNode* function) {
+void parseFunctionBody(FunctionNode& function) {
     TokenType token;
-    while ((token = nextToken()) != TOKEN_RIGHT_BRACE) {
-        if (token == TOKEN_INT) {
-            VariableNode* var = parseVariableDeclaration();
+    while ((token = nextToken()) != TokenType::RIGHT_BRACE) {
+        if (token == TokenType::INT) {
+            auto var = parseVariableDeclaration();
             if (var) {
-                var->next = function->variables;
-                function->variables = var;
+                function.variables.push_back(std::move(var));
             }
         } else {
-            printf("ERR: Unexpected token in function body\n");
+            std::cerr << "ERR: Unexpected token in function body\n";
             break;
         }
     }
@@ -74,42 +65,34 @@ void parseFunctionBody(FunctionNode* function) {
     ungetc('}', lexerFile);
 }
 
-VariableNode* parseVariableDeclaration() {
-    VariableNode* node = new VariableNode();
+std::unique_ptr<VariableNode> parseVariableDeclaration() {
+    auto node = std::make_unique<VariableNode>();
     node->type = "int";
-    node->next = NULL;
 
     TokenType token = nextToken();
-    if (token != TOKEN_IDENTIFIER) {
-        printf("ERR: Expected identifier in variable declaration\n");
-        free(node);
-        return NULL;
+    if (token != TokenType::IDENTIFIER) {
+        std::cerr << "ERR: Expected identifier in variable declaration\n";
+        return nullptr;
     }
-    node->name = strdup(getCurrentTokenValue());
+    node->name = getCurrentTokenValue();
 
     token = nextToken();
-    if (token != TOKEN_EQUALS) {
-        printf("ERR: Expected \"=\" in variable declaration\n");
-        free(node->name);
-        free(node);
-        return NULL;
+    if (token != TokenType::EQUALS) {
+        std::cerr << "ERR: Expected \"=\" in variable declaration\n";
+        return nullptr;
     }
 
     token = nextToken();
-    if (token != TOKEN_NUMBER) {
-        printf("ERR: Expected number in variable declaration\n");
-        free(node->name);
-        free(node);
-        return NULL;
+    if (token != TokenType::NUMBER) {
+        std::cerr << "ERR: Expected number in variable declaration\n";
+        return nullptr;
     }
-    node->value = atoi(getCurrentTokenValue());
+    node->value = std::stoi(getCurrentTokenValue());
 
     token = nextToken();
-    if (token != TOKEN_SEMICOLON) {
-        printf("ERR: Expected \";\" at the end of variable declaration\n");
-        free(node->name);
-        free(node);
-        return NULL;
+    if (token != TokenType::SEMICOLON) {
+        std::cerr << "ERR: Expected \";\" at the end of variable declaration\n";
+        return nullptr;
     }
 
     return node;

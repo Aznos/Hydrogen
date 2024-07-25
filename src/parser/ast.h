@@ -2,21 +2,20 @@
 #define AST_H
 
 #include "../lexer/lexer.h"
+#include <string>
+#include <memory>
+#include <vector>
 
-struct VariableNode;
-struct FunctionNode;
-
-typedef struct VariableNode {
-    char* type;
-    char* name;
+struct VariableNode {
+    std::string type;
+    std::string name;
     int value;
-    struct VariableNode* next;
-} VariableNode;
+};
 
-typedef struct FunctionNode {
-    char* type;
-    char* functionName;
-    VariableNode* variables;
-} FunctionNode;
+struct FunctionNode {
+    std::string type;
+    std::string functionName;
+    std::vector<std::unique_ptr<VariableNode>> variables;
+};
 
 #endif
