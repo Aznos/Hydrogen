@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
         remove(assemblyFile);
         remove(objectFile);
     } else {
-        printf("Parsing failed or produced no function.\n");
+        printf("Parsing failed\n");
     }
 
     fclose(file);

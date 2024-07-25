@@ -17,6 +17,8 @@ TokenType nextToken() {
         char *word = readKeyword(c);
         if(strcmp(word, "void") == 0) {
             return TOKEN_VOID;
+        } else if(strcmp(word, "int") == 0) {
+            return TOKEN_INT;
         } else {
             return TOKEN_IDENTIFIER;
         }

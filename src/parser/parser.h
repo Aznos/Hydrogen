@@ -6,6 +6,5 @@
 #include "../lexer/lexer.h"
 
 FunctionNode* parseFunction();
-void expectToken(TokenType expectedToken);
 
 #endif
