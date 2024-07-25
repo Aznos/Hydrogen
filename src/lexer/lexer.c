@@ -13,29 +13,32 @@ TokenType nextToken() {
         c = getNextChar();
     }
 
-    if(isalpha(c)) {
-        char *word = readKeyword(c);
-        if(strcmp(word, "void") == 0) {
-            return TOKEN_VOID;
-        } else if(strcmp(word, "int") == 0) {
-            return TOKEN_INT;
-        } else {
-            return TOKEN_IDENTIFIER;
-        }
-    } else if(c == '(') {
-        return TOKEN_LEFT_PAREN;
-    } else if(c == ')') {
-        return TOKEN_RIGHT_PAREN;
-    } else if(c == '{') {
-        return TOKEN_LEFT_BRACE;
-    } else if(c == '}') {
-        return TOKEN_RIGHT_BRACE;
-    } else if(c == '=') {
-        return TOKEN_EQUALS;
-    } else if(isdigit(c)) {
-        return TOKEN_NUMBER;
-    } else if(c == ';') {
-        return TOKEN_SEMICOLON;
+    switch(c) {
+        case '(': 
+            return TOKEN_LEFT_PAREN;
+        case ')': 
+            return TOKEN_RIGHT_PAREN;
+        case '{': 
+            return TOKEN_LEFT_BRACE;
+        case '}': 
+            return TOKEN_RIGHT_BRACE;
+        case '=': 
+            return TOKEN_EQUALS;
+        case ';': 
+            return TOKEN_SEMICOLON;
+        default:
+            if(isalpha(c)) {
+                char *word = readKeyword(c);
+                if(strcmp(word, "void") == 0) {
+                    return TOKEN_VOID;
+                } else if(strcmp(word, "int") == 0) {
+                    return TOKEN_INT;
+                } else {
+                    return TOKEN_IDENTIFIER;
+                }
+            } else if(isdigit(c)) {
+                return TOKEN_NUMBER;
+            }
     }
 
     return TOKEN_EOF;
