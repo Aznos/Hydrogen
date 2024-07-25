@@ -1,5 +1,5 @@
 bin/
 .vscode/
 main
+temp.s
 *.o
-*.s

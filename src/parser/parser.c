@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "../codegen/arm_codegen.h"
 
 extern FILE* lexerFile;
 
@@ -136,6 +137,5 @@ void parsePrintStatement() {
 
     if(nextToken() != TOKEN_RIGHT_PAREN) {
         printf("ERR: Expected \")\" in print statement\n");
-        return;
     }
 }

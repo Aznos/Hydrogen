@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
     char assemblyFile[] = "temp.s";
     char objectFile[] = "temp.o";
     char executableFile[] = "main";
+    char printUtilsObjectFile[] = "print_utils.o";
     int keepAsm = 0;
 
     if (argc == 3) {
@@ -47,8 +48,16 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        snprintf(assembleCmd, sizeof(assembleCmd), "as -g -o %s src/codegen/print_utils.s", printUtilsObjectFile);
+        assembleStatus = system(assembleCmd);
+        if (assembleStatus != 0) {
+            printf("Assembly of print_utils.s failed with status: %d\n", WEXITSTATUS(assembleStatus));
+            fclose(file);
+            return 1;
+        }
+
         char linkCmd[512];
-        snprintf(linkCmd, sizeof(linkCmd), "gcc -g -o %s %s", executableFile, objectFile);
+        snprintf(linkCmd, sizeof(linkCmd), "gcc -g -o %s %s %s -lc", executableFile, objectFile, printUtilsObjectFile);
         int linkStatus = system(linkCmd);
         if (linkStatus != 0) {
             printf("Linking failed with status: %d\n", WEXITSTATUS(linkStatus));
@@ -59,6 +68,7 @@ int main(int argc, char* argv[]) {
         if (!keepAsm) {
             remove(assemblyFile);
             remove(objectFile);
+            remove(printUtilsObjectFile);
         }
     } else {
         printf("Parsing failed\n");
