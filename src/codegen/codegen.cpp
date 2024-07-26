@@ -13,10 +13,9 @@ void generateLLVMIR(FunctionNode* function, const char* outputFileName) {
     Builder.SetInsertPoint(Entry);
 
     VariableNode* var = function->variables;
-    while(var != NULL) {
-        llvm::Value* VarAlloc = Builder.CreateAlloca(Builder.getInt32Ty(), nullptr, var->name);
+    while (var != NULL) {
+        llvm::AllocaInst* VarAlloc = Builder.CreateAlloca(Builder.getInt32Ty(), nullptr, var->name);
         Builder.CreateStore(Builder.getInt32(var->value), VarAlloc);
-
         var = var->next;
     }
 

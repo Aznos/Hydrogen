@@ -64,6 +64,8 @@ TokenType readKeyword(char c) {
         return TOKEN_VOID;
     } else if(strcmp(word, "int") == 0) {
         return TOKEN_INT;
+    } else if(strcmp(word, "print") == 0) {
+        return TOKEN_PRINT;
     }
 
     return TOKEN_IDENTIFIER;

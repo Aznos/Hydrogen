@@ -17,7 +17,6 @@ typedef enum {
     TOKEN_EQUALS,
     TOKEN_NUMBER,
     TOKEN_PRINT,
-    TOKEN_STRING_LITERAL,
     TOKEN_SEMICOLON,
     TOKEN_EOF
 } TokenType;

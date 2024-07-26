@@ -8,18 +8,14 @@ OBJ_DIR = $(BIN_DIR)/obj
 TARGET = $(BIN_DIR)/hydrogen
 ARGS = ./src/hydrogen/test.hydro
 
-SRC_FILES = $(shell find $(SRC_DIR) -name '*.c' -o -name '*.cpp')
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES)))
+SRC_FILES = $(shell find $(SRC_DIR) -name '*.cpp')
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 all: $(TARGET)
 
 $(TARGET): $(OBJ_FILES)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJ_FILES) -o $@ $(LDFLAGS)
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
