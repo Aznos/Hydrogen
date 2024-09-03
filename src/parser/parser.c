@@ -35,7 +35,7 @@ std::unique_ptr<ExprAST> parseParenExpr() {
     getNextToken(); //(
     auto val = parseExpression();
     if(!val) 
-        nullptr;
+        return nullptr;
     
     if(currentTok != ')')
         return logError("Expected ')'");
@@ -119,7 +119,7 @@ std::unique_ptr<ExprAST> parseExpression() {
     return parseBinopRHS(0, std::move(LHS));
 }
 
-std::unique_ptr<ExprAST> parsePrototype() {
+std::unique_ptr<PrototypeAST> parsePrototype() {
     if(currentTok != tok_identifier)
         return logErrorP("Expected function name in prototype");
 
@@ -127,7 +127,7 @@ std::unique_ptr<ExprAST> parsePrototype() {
     getNextToken();
 
     if(currentTok != '(')
-        return LogErrorP("Expected '(' in prototype");
+        return logErrorP("Expected '(' in prototype");
 
     std::vector<std::string> argNames;
     while(getNextToken() == tok_identifier)
@@ -153,7 +153,7 @@ std::unique_ptr<FunctionAST> parseFunction() {
 }
 
 std::unqiue_ptr<FunctionAST> parseTopLevelExpr() {
-    if(auto expr = ParseExpression()) {
+    if(auto expr = parseExpression()) {
         auto prototype = std::make_unique<PrototypeAST>("__anon_expr", std::vector<std::string>());
         return std::make_unique<FunctionAST>(std::move(prototype), std::move(expr));
     }
@@ -200,7 +200,7 @@ void mainLoop() {
                 getNextToken();
                 break;
             case tok_fn:
-                handleFunciton();
+                handleFunction();
                 break;
             case tok_extern:
                 handleExtern();

@@ -29,12 +29,12 @@ int getTok() { //Return next token
         return tok_number;
     }
 
-    if(lastChar == '/' && getchar == '/') {
+    if (lastChar == '/' && (lastChar = getchar()) == '/') {
         do
             lastChar = getchar();
-        while(lastChar != EOF && lastChar != '\n' && lastChar != '\r');
+        while (lastChar != EOF && lastChar != '\n' && lastChar != '\r');
 
-        if(lastChar != EOF) {
+        if (lastChar != EOF) {
             return getTok();
         }
     }
