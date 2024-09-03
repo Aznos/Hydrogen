@@ -1,6 +1,6 @@
 CXX := g++
 CXXFLAGS := -Wall -Wextra -std=c++17 -Isrc/
-LDFLAGS := 
+LDFLAGS := `/opt/homebrew/opt/llvm/bin/llvm-config --cxxflags --ldflags --system-libs --libs core`
 
 SRCDIR := src
 BINDIR := bin
