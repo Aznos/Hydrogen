@@ -13,7 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Install LLVM
+      run: brew install llvm
+
     - name: Compile
       run: make
+
     - name: Run Executable
       run: ./bin/main
