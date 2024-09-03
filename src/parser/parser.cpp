@@ -182,7 +182,7 @@ void handleExtern() {
     }
 }
 
-void handletopLevelExpr() {
+void handleTopLevelExpr() {
     if(parseTopLevelExpr()) {
         fprintf(stderr, "Parsed a top level expression\n");
     } else {

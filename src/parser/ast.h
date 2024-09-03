@@ -1,7 +1,7 @@
 #ifndef AST_H
 #define AST_H
 
-#include "../main.h"
+#include "main.h"
 
 namespace {
     class ExprAST { //Base class for all expression nodes

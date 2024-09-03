@@ -1,15 +1,15 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "../main.h"
+#include "main.h"
 #include "ast.h"
-#include "../lexer/lexer.h"
+#include "lexer/lexer.h"
 
-extern int currentTok;
-extern int getNextToken();
+int currentTok;
+int getNextToken();
 
-extern std::map<char, int> BinopPrecedence; //Holds precedence for each binary op thats defined
-extern int getTokPrecedence(); //Get prededence of pending binop token
+std::map<char, int> BinopPrecedence; //Holds precedence for each binary op thats defined
+int getTokPrecedence(); //Get prededence of pending binop token
 
 extern std::unique_ptr<ExprAST> logError(const char *str);
 extern std::unique_ptr<PrototypeAST> logErrorP(const char *str);

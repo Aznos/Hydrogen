@@ -1,7 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include "../main.h"
+#include "main.h"
 
 enum Token {
     tok_eof = 1,
@@ -15,8 +15,8 @@ enum Token {
     tok_number = 5 //For now we're just having doubles so no type defs needed
 };
 
-extern std::string IdentifierStr; //tok_identifier
-extern double NumVal; //tok_number
+std::string IdentifierStr; //tok_identifier
+double NumVal; //tok_number
 
 int getTok();
 
