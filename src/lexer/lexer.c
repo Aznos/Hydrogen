@@ -31,11 +31,11 @@ int getTok() { //Return next token
 
     if(lastChar == '/' && getchar == '/') {
         do
-            lastChar == getchar();
+            lastChar = getchar();
         while(lastChar != EOF && lastChar != '\n' && lastChar != '\r');
 
         if(lastChar != EOF) {
-            return gettok();
+            return getTok();
         }
     }
 

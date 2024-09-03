@@ -1,14 +1,14 @@
 #include "parser.h"
 
 int getNextToken() {
-    return curTok = gettok();
+    return currentTok = getTok();
 }
 
 int getTokPrecedence() {
-    if(!isascii(curTok))
+    if(!isascii(currentTok))
         return -1;
 
-    int tokPrec = BinopPrecedence[curTok];
+    int tokPrec = BinopPrecedence[currentTok];
     if(tokPrec <= 0)
         return -1;
     
@@ -26,12 +26,12 @@ std::unique_ptr<PrototypeAST> logErrorP(const char *str) {
 }
 
 std::unique_ptr<ExprAST> parseNumberExpr() {
-    auto res = std::make_unique<NumberExprAST>(numVal);
+    auto res = std::make_unique<NumberExprAST>(NumVal);
     getNextToken();
     return std::move(res);
 }
 
-std::unique_ptr<ExprASTA> parseParenExpr() {
+std::unique_ptr<ExprAST> parseParenExpr() {
     getNextToken(); //(
     auto val = parseExpression();
     if(!val) 
@@ -52,8 +52,8 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
         return std::make_unique<VariableExprAST>(idName);
 
     getNextToken(); //(
-    std::vector<std::unique_ptr<ExprAST>> args;
-    if(currentTok !+ ')') {
+    std::vector<std::unique_ptr<ExprAST> > args;
+    if(currentTok != ')') {
         while(true) {
             if(auto arg = parseExpression())
                 args.push_back(std::move(arg));
@@ -77,11 +77,11 @@ std::unique_ptr<ExprAST> parseIdentifierExpr() {
 std::unique_ptr<ExprAST> parsePrimary() {
     switch(currentTok) {
         case tok_identifier:
-            return ParseIdentifierExpr();
+            return parseIdentifierExpr();
         case tok_number:
-            return ParseNumberExpr();
+            return parseNumberExpr();
         case '(':
-            return ParseParenExpr();
+            return parseParenExpr();
         default:
             return logError("Unknown token when expecting an expression");
     }
