@@ -152,7 +152,7 @@ std::unique_ptr<FunctionAST> parseFunction() {
     return nullptr;
 }
 
-std::unqiue_ptr<FunctionAST> parseTopLevelExpr() {
+std::unique_ptr<FunctionAST> parseTopLevelExpr() {
     if(auto expr = parseExpression()) {
         auto prototype = std::make_unique<PrototypeAST>("__anon_expr", std::vector<std::string>());
         return std::make_unique<FunctionAST>(std::move(prototype), std::move(expr));
