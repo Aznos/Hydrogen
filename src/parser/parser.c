@@ -142,7 +142,7 @@ std::unique_ptr<ExprAST> parsePrototype() {
 
 std::unique_ptr<FunctionAST> parseFunction() {
     getNextToken(); //fn
-    auto prototype = ParsePrototype();
+    auto prototype = parsePrototype();
     if(!prototype)
         return nullptr;
 
