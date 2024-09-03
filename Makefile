@@ -1,22 +1,24 @@
-all: bin/main
+CXX := g++
+CXXFLAGS := -Wall -Wextra -std=c++17 -Isrc/
+LDFLAGS := 
 
-bin/main: bin/main.o bin/lexer.o bin/parser.o
-	g++ -o bin/main bin/main.o bin/lexer.o bin/parser.o -Wall -Wextra -std=c++17
+SRCDIR := src
+BINDIR := bin
 
-bin/main.o: src/main.cpp
-	mkdir -p bin
-	g++ -c src/main.cpp -o bin/main.o -Isrc/ -Wall -Wextra -std=c++17
+SRC := $(shell find $(SRCDIR) -name '*.cpp')
+OBJ := $(SRC:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
 
-bin/lexer.o: src/lexer/lexer.cpp
-	mkdir -p bin
-	g++ -c src/lexer/lexer.cpp -o bin/lexer.o -Isrc/ -Wall -Wextra -std=c++17
+all: $(BINDIR)/main
 
-bin/parser.o: src/parser/parser.cpp
-	mkdir -p bin
-	g++ -c src/parser/parser.cpp -o bin/parser.o -Isrc/ -Wall -Wextra -std=c++17
+$(BINDIR)/main: $(OBJ)
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
-run: bin/main
-	./bin/main
+$(BINDIR)/%.o: $(SRCDIR)/%.cpp
+	mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+run: $(BINDIR)/main
+	./$(BINDIR)/main
 
 clean:
-	rm -rf bin
+	rm -rf $(BINDIR)
