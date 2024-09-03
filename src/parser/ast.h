@@ -13,10 +13,10 @@ namespace {
         double val;
 
         public:
-            NumberExprAST(double val) : Val(Val) {}
+            NumberExprAST(double val) : val(val) {}
     };
 
-    class VariableExprAST : public ExprAst { //Expression class for referencing a variable
+    class VariableExprAST : public ExprAST { //Expression class for referencing a variable
         std::string name;
 
         public:
