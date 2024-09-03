@@ -2,11 +2,13 @@
 #define AST_H
 
 #include "main.h"
+#include "codegen/codegen.h"
 
 namespace {
     class ExprAST { //Base class for all expression nodes
         public:
             virtual ~ExprAST() = default;
+            virtual Value *codegen() = 0;
     };
 
     class NumberExprAST : public ExprAST { //Expression class for numeric literals
@@ -14,6 +16,7 @@ namespace {
 
         public:
             NumberExprAST(double val) : val(val) {}
+            Value *codegen() override;
     };
 
     class VariableExprAST : public ExprAST { //Expression class for referencing a variable
@@ -21,6 +24,7 @@ namespace {
 
         public:
             VariableExprAST(const std::string &name) : name(name) {}
+            Value *codegen() override;
     };
 
     class BinaryExprAST : public ExprAST { //Expression class for a binary operation
@@ -29,6 +33,7 @@ namespace {
 
         public:
             BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS) : op(op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
+            Value *codegen() override;
     };
 
     class CallExprAST : public ExprAST { //Expression class for function calls
@@ -37,6 +42,7 @@ namespace {
 
         public:
             CallExprAST(const std::string &callee, std::vector<std::unique_ptr<ExprAST> > args) : callee(callee), args(std::move(args)) {}
+            Value *codegen() override;
     };
 
     class PrototypeAST { //Represents a prototype for a function which takes a name and argument names
@@ -45,6 +51,7 @@ namespace {
 
         public:
             PrototypeAST(const std::string &name, std::vector<std::string> args) : name(name), args(std::move(args)) {}
+            Function *codegen();
             const std::string &getName() const {
                 return name;
             }
@@ -56,6 +63,7 @@ namespace {
 
         public:
             FunctionAST(std::unique_ptr<PrototypeAST> prototype, std::unique_ptr<ExprAST> body) : prototype(std::move(prototype)), body(std::move(body)) {}
+            Function *codegen();
     };
 }
 

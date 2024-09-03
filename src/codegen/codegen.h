@@ -1,3 +1,6 @@
+#ifndef CODEGEN_H
+#define CODEGEN_H
+
 #include "llvm/ADT/APFloat.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/IR/BasicBlock.h"
@@ -10,6 +13,8 @@
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Verifier.h"
 #include "main.h"
+#include "parser/parser.h"
+#include "lexer/lexer.h"
 
 using namespace llvm;
 
@@ -17,3 +22,5 @@ std::unique_ptr<LLVMContext> context;
 std::unique_ptr<Module> module;
 std::unique_ptr<IRBuilder<>> builder;
 std::map<std::string, Value*> namedValues;
+
+#endif
