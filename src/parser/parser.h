@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 #include "ast.h"
+#include "lexer.h"
 
 extern int currentTok;
 extern int getNextToken();
@@ -18,6 +19,7 @@ extern std::map<char, int> BinopPrecedence; //Holds precedence for each binary o
 extern int getTokPrecedence(); //Get prededence of pending binop token
 
 extern std::unique_ptr<ExprAST> logError(const char *str);
+extern std::unique_ptr<PrototypeAST> logErrorP(const char *str);
 
 extern std::unique_ptr<ExprAST> parseExpression();
 extern std::unique_ptr<ExprAST> parseNumberExpr();
@@ -31,7 +33,7 @@ extern std::unique_ptr<FunctionAST> parseFunction(); //Parse 'fn'
 extern std::unique_ptr<FunctionAST> parseTopLevelExpr();
 extern std::unique_ptr<PrototypeAST> parseExtern();
 
-extern void handleDefinition();
+extern void handleFunction();
 extern void handleExtern();
 extern void handleTopLevelExpr();
 extern void mainLoop();
