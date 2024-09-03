@@ -5,10 +5,10 @@
 #include "ast.h"
 #include "lexer/lexer.h"
 
-int currentTok;
+static int currentTok;
 int getNextToken();
 
-std::map<char, int> BinopPrecedence; //Holds precedence for each binary op thats defined
+static std::map<char, int> BinopPrecedence; //Holds precedence for each binary op thats defined
 int getTokPrecedence(); //Get prededence of pending binop token
 
 extern std::unique_ptr<ExprAST> logError(const char *str);
