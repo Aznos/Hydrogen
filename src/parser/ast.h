@@ -28,15 +28,15 @@ namespace {
         std::unique_ptr<ExprAST> LHS, RHS; //Left and right side of the equasion
 
         public:
-            BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS) : op(op), LHS(std::move(LHS)), RHS(std:move(RHS)) {}
+            BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS) : op(op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
     };
 
     class CallExprAST : public ExprAST { //Expression class for function calls
         std::string callee; //What function the function was called from
-        std::vector<std::unique_ptr<ExprAST>> args;
+        std::vector<std::unique_ptr<ExprAST> > args;
 
         public:
-            CallExprAST(const std::string &callee, std::vector<std::unique_ptr<ExprAST>> args) : callee(callee), args(std::move(args)) {}
+            CallExprAST(const std::string &callee, std::vector<std::unique_ptr<ExprAST> > args) : callee(callee), args(std::move(args)) {}
     };
 
     class PrototypeAST { //Represents a prototype for a function which takes a name and argument names
@@ -55,7 +55,7 @@ namespace {
         std::unique_ptr<ExprAST> body;
 
         public:
-            FunctionAST(std::unique_ptr<PrototypeAST> prototype, std::unique_ptr<ExprAST> body) : prototype(std:move(prototype)), body(std::move(body)) {}
+            FunctionAST(std::unique_ptr<PrototypeAST> prototype, std::unique_ptr<ExprAST> body) : prototype(std::move(prototype)), body(std::move(body)) {}
     };
 }
 

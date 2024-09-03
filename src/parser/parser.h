@@ -3,7 +3,7 @@
 
 #include "../main.h"
 #include "ast.h"
-#include "lexer.h"
+#include "../lexer/lexer.h"
 
 extern int currentTok;
 extern int getNextToken();

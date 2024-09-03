@@ -1,10 +1,10 @@
 #include "lexer.h"
 
-static int getTok() { //Return next token
-    static int lastChar = ' ';
+int getTok() { //Return next token
+    int lastChar = ' ';
 
     while(isspace(lastChar))
-        lastChar = getChar();
+        lastChar = getchar();
 
     if(isalpha(lastChar)) {
         IdentifierStr = lastChar;
