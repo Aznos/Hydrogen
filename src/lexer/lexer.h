@@ -1,14 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-#include <map>
-#include <memory>
-#include <string>
-#include <utility>
-#include <vector>
+#include "../main.h"
 
 enum Token {
     tok_eof = 1,

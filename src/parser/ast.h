@@ -1,14 +1,7 @@
 #ifndef AST_H
 #define AST_H
 
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-#include <map>
-#include <memory>
-#include <string>
-#include <utility>
-#include <vector>
+#include "../main.h"
 
 namespace {
     class ExprAST { //Base class for all expression nodes
