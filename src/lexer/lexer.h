@@ -19,12 +19,12 @@ enum Token {
 
     //Identifiers
     tok_identifier = 4,
-    tok_number = 5,
+    tok_number = 5 //For now we're just having doubles so no type defs needed
 };
 
-static std::string IdentifierStr; //tok_identifier
-static double NumVal; //tok_number
+extern std::string IdentifierStr; //tok_identifier
+extern double NumVal; //tok_number
 
-static int getTok();
+int getTok();
 
 #endif
