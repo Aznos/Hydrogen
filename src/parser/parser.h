@@ -2,7 +2,7 @@
 #define PARSER_H
 
 #include "main.h"
-#include "ast.h"
+#include "parser/ast.h"
 #include "lexer/lexer.h"
 
 static int currentTok;
