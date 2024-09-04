@@ -1,6 +1,7 @@
 #ifndef CODEGEN_H
 #define CODEGEN_H
 
+#include "parser/ast.h"  // Include ast.h first to ensure ExprAST is defined
 #include "llvm/ADT/APFloat.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/IR/BasicBlock.h"
@@ -18,9 +19,11 @@
 
 using namespace llvm;
 
-std::unique_ptr<LLVMContext> context;
-std::unique_ptr<Module> module;
-std::unique_ptr<IRBuilder<>> builder;
-std::map<std::string, Value*> namedValues;
+extern std::unique_ptr<LLVMContext> context;
+extern std::unique_ptr<Module> module;
+extern std::unique_ptr<IRBuilder<>> builder;
+extern std::map<std::string, Value*> namedValues;
+
+Value *logErrorV(const char *str);
 
 #endif

@@ -1,6 +1,6 @@
 CXX := g++
 CXXFLAGS := -Wall -Wextra -std=c++17 
-INCFLAGS := -Isrc/ -I/opt/homebrew/Cellar/llvm/18.1.8/include
+INCFLASGS := -Isrc/ -I/opt/homebrew/Cellar/llvm/18.1.8/include
 LDFLAGS := `/opt/homebrew/opt/llvm/bin/llvm-config --cxxflags --ldflags --system-libs --libs core`
 
 SRCDIR := src
@@ -16,7 +16,7 @@ $(BINDIR)/main: $(OBJ)
 
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
 	mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $(INCFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCFLASGS) -c $< -o $@
 
 run: $(BINDIR)/main
 	./$(BINDIR)/main
