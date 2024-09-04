@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "lexer.h"
 
 int getNextToken() {
     return currentTok = getTok();
@@ -167,24 +168,38 @@ std::unique_ptr<PrototypeAST> parseExtern() {
 }
 
 void handleFunction() {
-    if(parseFunction()) {
-        fprintf(stderr, "Parsed a function definition\n");
+    if(auto fnAST = parseFunction()) {
+        if(auto *fnIR = fnAST->codegen()) {
+            fprintf(stderr, "Read function definition: ");
+            fnIR->print(errs());
+            fprintf(stderr, "\n");
+        }
     } else {
-        getNextToken(); //Skip token
+        getNextToken();
     }
 }
 
 void handleExtern() {
-    if(parseExtern()) {
-        fprintf(stderr, "Parsed an extern\n");
+    if(auto prototypeAST = parseExtern()) {
+        if(auto *fnIR = prototypeAST->codegen()) {
+            fprintf(stderr, "Read extern: ");
+            fnIR->print(errs());
+            fprintf(stderr, "\n");
+        }
     } else {
         getNextToken();
     }
 }
 
 void handleTopLevelExpr() {
-    if(parseTopLevelExpr()) {
-        fprintf(stderr, "Parsed a top level expression\n");
+    if(auto fnAST = parseTopLevelExpr()) {
+        if(auto *fnIR = fnAST->codegen()) {
+            fprintf(stderr, "Read top level expression: ");
+            fnIR->print(errs());
+            fprintf(stderr, "\n");
+
+            fnIR->eraseFromParent();
+        }
     } else {
         getNextToken();
     }

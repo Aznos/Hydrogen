@@ -1,5 +1,16 @@
 #include "codegen.h"
 
+std::unique_ptr<LLVMContext> context;
+std::unique_ptr<Module> module;
+std::unique_ptr<IRBuilder<>> builder;
+std::map<std::string, Value*> namedValues;
+
+void initModule() {
+    context = std::make_unique<LLVMContext>();
+    module = std::make_unique<Module>("my cool jit", *context);
+    builder = std::make_unique<IRBuilder<>>(*context);
+}
+
 Value *logErrorV(const char *str) {
     logError(str);
     return nullptr;

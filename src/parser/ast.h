@@ -12,9 +12,8 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Verifier.h"
-#include "main.h"
-#include "parser.h"
-#include "codegen/codegen.h"
+#include <main.h>
+#include <codegen/codegen.h>
 
 using namespace llvm;
 
@@ -26,7 +25,7 @@ class ExprAST { //Base class for all expression nodes
 
 class NumberExprAST : public ExprAST { //Expression class for numeric literals
     double val;
-
+    
     public:
         NumberExprAST(double val) : val(val) {}
         Value *codegen() override;

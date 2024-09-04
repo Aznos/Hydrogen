@@ -1,6 +1,9 @@
 #include "main.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "codegen/codegen.h"
+
+using namespace llvm;
 
 int main() {
     BinopPrecedence['<'] = 10;
@@ -11,7 +14,10 @@ int main() {
     fprintf(stderr, "ready> "); //TODO: implement file reading
     getNextToken();
 
+    initModule();
     mainLoop();
+
+    module->print(errs(), nullptr);
 
     return 0;
 }
