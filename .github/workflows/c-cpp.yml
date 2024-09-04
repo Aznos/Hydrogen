@@ -12,19 +12,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Cache Homebrew
-      id: cache-brew
-      uses: actions/cache@v3
-      with:
-        path: /Users/runner/Library/Caches/Homebrew
-        key: ${{ runner.os }}-brew-${{ hashFiles('**/Brewfile') }}
-        restore-keys: |
-          ${{ runner.os }}-brew-
-
-    - name: Install LLVM
-      run: brew install llvm
+    - uses: actions/checkout@v
 
     - name: Compile
       run: make
